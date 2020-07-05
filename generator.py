@@ -27,36 +27,35 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
         super().__init__(),
         self.setupUi(self)
 
-        self.btn_open_keyword.clicked.connect(self.btnUploadClicked1)
-        self.btn_open_member.clicked.connect(self.btnUploadClicked2)
-        self.btn_open_xlsx.clicked.connect(self.btnUploadClicked3)
+        self.btn_open_xlsx.clicked.connect(self.btnUploadClicked)
         self.btn_search.clicked.connect(self.btnGenerateClicked)
         self.btn_clear.clicked.connect(self.btnClearClicked)
         self.btn_download.clicked.connect(self.btnDownloadClicked)
-
+        
         self.xlsx = str()
+        self.quarter = int()
         self.keyword = []
         self.member = []
         self.work = []
         self.result = []
         self.task = []
+        self.allTasks = []
 
     def setTaskByKeyword(self, file):
         allTasks = []
         sheetKeyword = file['keyword']
-        sheetWork = file['work']
         keywords = []
         works = []
-        for row in range(1,sheetKeyword.max_row):
+        for row in range(1,sheetKeyword.max_row+1):
             keywords.append(sheetKeyword.cell(row, 1).value)
-        for row in range(1,sheetWork.max_row):
-            works.append(sheetWork.cell(row,1).value)
- 
+        for i in range(len(self.work)):
+            works.append(self.work[i][0])
+        
         for a in keywords:
+            A = []
+            A.append(a)
             for b in works:
-                allTasks.append([a+" "+b, b])
-                #print([a+" "+b, b])
-        #self.result = allTasks #TEMP
+                allTasks.append([A[0]+" "+b, b])
         self.task = allTasks #TEMP
 
     def setTaskByPosition(self, file):
@@ -73,11 +72,14 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
                 if b == y:
                     self.member.append([a, b, x])
 
+        cnt = 0
         for a, b, c in self.member:
             for x, y in self.task:
                 for m, n in self.work:
+                    cnt += 1
                     if m == y and int(n) == 0:
                         self.result.append([x, y, a, b, c])
+                        print("1 : ", self.result)
                     elif m == y and int(n) > 0:
                         if c >= n:
                             self.result.append([x, y, a, b, c])
@@ -85,19 +87,30 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
                         if -c <= n :
                             self.result.append([x, y, a, b, c])
 
+#        cnt = 0
+#        for a, b, c in self.member:
+#            for x, y in self.task:
+#                for m, n in self.work:
+#                    cnt += 1
+#                    if int(n) == 0:
+#                        if m == y:
+#                            self.result.append([x, y, a, b, c])
+#                            print("1 : ", self.result)
+#                    elif int(n) > 0:
+#                        if c >= n and m == y:
+#                            self.result.append([x, y, a, b, c])
+#                    elif int(n) < 0:
+#                        if -c <= n and m == y:
+#                            self.result.append([x, y, a, b, c])
+
+        print("result : ", self.result)
+        print(cnt)
+
     def filterTaskByDate(self, file):
         sheetWork = file['work']
-        month = self.input_date.date().month()
-        if month in [1, 2, 3, 4, 5, 6]:
-            workFrom = 2
-            workTo = 12
-        elif month in [7, 8, 9, 10, 11, 12]:
-            workFrom = 6
-            workTo = 25
-
-        #filter
-        for row in range(workFrom, workTo):
-            self.work.append([sheetWork.cell(row, 1).value, sheetWork.cell(row, 2).value])
+        for row in range(2, sheetWork.max_row + 1):
+            if sheetWork.cell(row, self.quarter + 4).value == True:
+                self.work.append([sheetWork.cell(row, 2).value, sheetWork.cell(row, 3).value])
 
     def printPreview(self):
         pass
@@ -109,6 +122,14 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
         self.input_upload_xlsx.setText('')
         self.label_result_value.setText('')
 
+    def quarterisChecked(self):
+        if self.box_search_input_qut_first.isChecked(): self.quarter = 1
+        elif self.box_search_input_qut_second.isChecked(): self.quarter = 2
+        elif self.box_search_input_qut_third.isChecked(): self.quarter = 3
+        elif self.box_search_input_qut_fourth.isChecked(): self.quarter = 4
+        else:
+            pass
+        
     def btnGenerateClicked(self):
         # initialize
 
@@ -117,18 +138,23 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
             QtWidgets.QMessageBox.warning(self, "주의", "파일을 먼저 선택해주세요.    ")
             return
 
+        try :
+            self.quarterisChecked()
+        except :
+            pass
+
         # read
         load_file = load_workbook(self.xlsx, data_only=True)
- 
+
         try:
             self.filterTaskByDate(load_file)
             self.setTaskByKeyword(load_file)
             self.setTaskByPosition(load_file)
             self.printPreview()
         except OSError:
-            pass
+            print("err1")
         except TypeError:
-            pass
+            print("err2")
         self.label_result_value.setText(str(len(self.result)))
 
     def btnDownloadClicked(self):
@@ -144,17 +170,10 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
         result_file.save('./result' + datetime.today().strftime("%Y%m%d%H%M%S") + '.xlsx') 
         QtWidgets.QMessageBox.about(self, "저장완료", "파일이 저장되었습니다.")  
 
-    def btnUploadClicked1(self):
-        pass
-
-    def btnUploadClicked2(self):
-        pass
-    
-    def btnUploadClicked3(self):
+    def btnUploadClicked(self):
         fname = QtWidgets.QFileDialog.getOpenFileName(self)
         self.input_upload_xlsx.setText(fname[0])
         self.xlsx = fname[0]
-        #print(self.xlsx)
         pass
 
 if __name__ == "__main__":
