@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>971</width>
-    <height>602</height>
+    <height>582</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QTableWidget" name="tbl_preview">
     <property name="geometry">
      <rect>
-      <x>570</x>
+      <x>500</x>
       <y>70</y>
-      <width>371</width>
-      <height>461</height>
+      <width>441</width>
+      <height>421</height>
      </rect>
     </property>
     <row>
@@ -150,7 +150,7 @@
     </row>
     <column>
      <property name="text">
-      <string>         업무          </string>
+      <string>         연구원명          </string>
      </property>
      <property name="font">
       <font>
@@ -161,7 +161,7 @@
     </column>
     <column>
      <property name="text">
-      <string>연구원명</string>
+      <string>업무</string>
      </property>
      <property name="font">
       <font>
@@ -179,7 +179,7 @@
    <widget class="QPushButton" name="btn_clear">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>210</x>
       <y>500</y>
       <width>131</width>
       <height>31</height>
@@ -194,8 +194,8 @@
      <rect>
       <x>30</x>
       <y>40</y>
-      <width>521</width>
-      <height>441</height>
+      <width>451</width>
+      <height>451</height>
      </rect>
     </property>
     <property name="title">
@@ -204,7 +204,7 @@
     <widget class="QLabel" name="label_date">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>20</x>
        <y>90</y>
        <width>71</width>
        <height>21</height>
@@ -217,7 +217,7 @@
     <widget class="QLabel" name="label_xlsx">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>20</x>
        <y>50</y>
        <width>71</width>
        <height>21</height>
@@ -230,9 +230,9 @@
     <widget class="QLineEdit" name="input_upload_xlsx">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>90</x>
        <y>50</y>
-       <width>271</width>
+       <width>231</width>
        <height>21</height>
       </rect>
      </property>
@@ -243,7 +243,7 @@
     <widget class="QPushButton" name="btn_open_xlsx">
      <property name="geometry">
       <rect>
-       <x>390</x>
+       <x>330</x>
        <y>50</y>
        <width>101</width>
        <height>23</height>
@@ -256,16 +256,16 @@
     <widget class="QGroupBox" name="groupBox">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>90</x>
        <y>90</y>
-       <width>271</width>
+       <width>231</width>
        <height>101</height>
       </rect>
      </property>
      <property name="title">
       <string/>
      </property>
-     <widget class="QRadioButton" name="radioButton">
+     <widget class="QRadioButton" name="input_qut_first">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -278,7 +278,7 @@
        <string>1분기</string>
       </property>
      </widget>
-     <widget class="QRadioButton" name="radioButton_2">
+     <widget class="QRadioButton" name="input_qut_second">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -291,7 +291,7 @@
        <string>2분기</string>
       </property>
      </widget>
-     <widget class="QRadioButton" name="radioButton_3">
+     <widget class="QRadioButton" name="input_qut_third">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -304,7 +304,7 @@
        <string>3분기</string>
       </property>
      </widget>
-     <widget class="QRadioButton" name="radioButton_4">
+     <widget class="QRadioButton" name="input_qut_fourth">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -322,20 +322,20 @@
    <widget class="QPushButton" name="btn_download">
     <property name="geometry">
      <rect>
-      <x>800</x>
+      <x>750</x>
       <y>40</y>
-      <width>141</width>
+      <width>191</width>
       <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>다운로드(엑셀)</string>
+     <string>전체결과 다운로드(엑셀)</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_search">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>350</x>
       <y>500</y>
       <width>131</width>
       <height>31</height>
@@ -348,7 +348,7 @@
    <widget class="QLabel" name="label_preview">
     <property name="geometry">
      <rect>
-      <x>580</x>
+      <x>510</x>
       <y>40</y>
       <width>141</width>
       <height>21</height>
@@ -382,6 +382,19 @@
     </property>
     <property name="text">
      <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_print">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>500</y>
+      <width>181</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>샘플 (재)출력하기</string>
     </property>
    </widget>
   </widget>
