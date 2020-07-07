@@ -172,11 +172,12 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
             self.filterTaskByDate(load_file)
             self.setTaskByKeyword(load_file)
             self.setTaskByPosition(load_file)
+            self.label_result_value.setText(str(len(self.result)))
+            print("Done!")
         except OSError:
             QtWidgets.QMessageBox.critical(self, "경고", "            잘못된 파일입니다.    \n 파일의 확장자나 내용을 확인해주세요.      ")
         except TypeError:
             QtWidgets.QMessageBox.critical(self, "경고", "            잘못된 파일입니다.    \n 파일의 확장자나 내용을 확인해주세요.      ")
-        self.label_result_value.setText(str(len(self.result)))
 
     def btnDownloadClicked(self):
         result_file = Workbook()
