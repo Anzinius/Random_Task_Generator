@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>야근대장 자동생성 프로그램</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>C:/Users/rnd/Desktop/그림5.png</normaloff>C:/Users/rnd/Desktop/그림5.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTableWidget" name="tbl_preview">
@@ -22,6 +26,9 @@
       <width>441</width>
       <height>411</height>
      </rect>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
     </property>
     <row>
      <property name="text">
@@ -317,6 +324,31 @@
        <string>4분기</string>
       </property>
      </widget>
+    </widget>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>430</y>
+       <width>451</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Agency FB</family>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="format">
+      <string>%p%</string>
+     </property>
     </widget>
    </widget>
    <widget class="QPushButton" name="btn_download">

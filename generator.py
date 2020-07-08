@@ -31,6 +31,7 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
     def __init__(self):
         super().__init__(),
         self.setupUi(self)
+        self.tbl_preview.horizontalHeader().setStretchLastSection(True)
 
         self.btn_open_xlsx.clicked.connect(self.btnUploadClicked)
         self.btn_search.clicked.connect(self.btnGenerateClicked)
@@ -40,6 +41,8 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
         
         self.xlsx = str()
         self.quarter = int()
+        self.cases = int()
+        self.cnt = int()
         self.keyword = []
         self.member = []
         self.work = []
@@ -87,12 +90,12 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
                 if b == y:
                     self.member.append([a, b, x])
 
-        cnt = 0
+        self.cases = len(self.member)*len(self.task)*len(self.work)
+        self.cnt = 0
         for a, b, c in self.member:
             for x, y in self.task:
                 for m, n in self.work:
-                    cnt += 1
-                    print(cnt)
+                    self.cnt += 1
                     if m == y and int(n) == 0:
                         self.result.append([x, y, a, b, c])
                     elif m == y and int(n) > 0:
@@ -101,7 +104,8 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
                     elif m == y and int(n) < 0:
                         if -c <= n :
                             self.result.append([x, y, a, b, c])
-    
+                    self.setProgress()
+                    
     def keyPressEvent(self, ev):
         if (ev.key() == QtCore.Qt.Key_C) and (ev.modifiers() & QtCore.Qt.ControlModifier): 
             self.copySelection()
@@ -122,10 +126,9 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
             task = QtWidgets.QTableWidgetItem()
             task.setText(random.choice(randTask))
             self.tbl_preview.setItem(row,1,task)
-        self.tbl_preview.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers) #https://m.blog.naver.com/PostView.nhn?blogId=thenaru2&logNo=220788804430&proxyReferer=https:%2F%2Fwww.google.com%2F
-
+        
     def copySelection(self):
-        selection = self.tbl_preview.selectedIndexes() #승민 호진 정수
+        selection = self.tbl_preview.selectedIndexes()
         if selection:
             rows = sorted(index.row() for index in selection)
             columns = sorted(index.column() for index in selection)
@@ -173,7 +176,7 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
             self.setTaskByKeyword(load_file)
             self.setTaskByPosition(load_file)
             self.label_result_value.setText(str(len(self.result)))
-            print("Done!")
+            self.progressBar.setValue(100)
         except OSError:
             QtWidgets.QMessageBox.critical(self, "경고", "            잘못된 파일입니다.    \n 파일의 확장자나 내용을 확인해주세요.      ")
         except TypeError:
@@ -195,6 +198,9 @@ class MyWindow(QtWidgets.QMainWindow, form_class):
         fname = QtWidgets.QFileDialog.getOpenFileName(self)
         self.input_upload_xlsx.setText(fname[0])
         self.xlsx = fname[0]
+
+    def setProgress(self):
+        self.progressBar.setValue((self.cnt/self.cases)*100)
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
