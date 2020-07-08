@@ -3,6 +3,7 @@ import os
 import random
 import io
 import csv
+import UI
 from PyQt5 import QtWidgets
 from PyQt5 import uic
 from PyQt5 import Qt
@@ -10,10 +11,6 @@ from PyQt5 import QtCore
 from openpyxl import load_workbook
 from openpyxl.workbook.workbook import Workbook
 from datetime import datetime
-
-# path to ui file
-ui_path = os.path.dirname(os.path.abspath(__file__))
-form_class = uic.loadUiType(os.path.join(ui_path, "main.ui"))[0]
 
 # Make window not to shut down when exception occurs
 def my_exception_hook(exctype, value, traceback):
@@ -27,7 +24,7 @@ sys._excepthook = sys.excepthook
 # Set the exception hook to our wrapping function
 sys.excepthook = my_exception_hook
 
-class MyWindow(QtWidgets.QMainWindow, form_class):
+class MyWindow(QtWidgets.QMainWindow, UI.Ui_MainWindow):
     def __init__(self):
         super().__init__(),
         self.setupUi(self)

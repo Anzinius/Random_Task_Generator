@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>C:/Users/rnd/Desktop/그림5.png</normaloff>C:/Users/rnd/Desktop/그림5.png</iconset>
+    <normaloff>../Random_Task_Generator_practice/icon/icon.ico</normaloff>../Random_Task_Generator_practice/icon/icon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTableWidget" name="tbl_preview">
