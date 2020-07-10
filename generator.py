@@ -6,7 +6,6 @@ import csv
 import UI
 from PyQt5 import QtWidgets
 from PyQt5 import uic
-from PyQt5 import Qt
 from PyQt5 import QtCore
 from openpyxl import load_workbook
 from openpyxl.workbook.workbook import Workbook
@@ -163,7 +162,7 @@ class MyWindow(QtWidgets.QMainWindow, UI.Ui_MainWindow):
         # error2
         self.quarterisChecked()
         if self.quarter == 0 :
-            QtWidgets.QMessageBox.warning(self, "주의", "파일을 먼저 선택해주세요.    ")
+            QtWidgets.QMessageBox.warning(self, "주의", "날짜를 먼저 선택해주세요.    ")
             return
 
         # read and generate
@@ -177,6 +176,8 @@ class MyWindow(QtWidgets.QMainWindow, UI.Ui_MainWindow):
         except OSError:
             QtWidgets.QMessageBox.critical(self, "경고", "            잘못된 파일입니다.    \n 파일의 확장자나 내용을 확인해주세요.      ")
         except TypeError:
+            QtWidgets.QMessageBox.critical(self, "경고", "            잘못된 파일입니다.    \n 파일의 확장자나 내용을 확인해주세요.      ")
+        except KeyError:
             QtWidgets.QMessageBox.critical(self, "경고", "            잘못된 파일입니다.    \n 파일의 확장자나 내용을 확인해주세요.      ")
 
     def btnDownloadClicked(self):
