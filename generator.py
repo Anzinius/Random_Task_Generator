@@ -7,6 +7,7 @@ import UI
 from PyQt5 import QtWidgets
 from PyQt5 import uic
 from PyQt5 import QtCore
+from PyQt5 import QtGui
 from openpyxl import load_workbook
 from openpyxl.workbook.workbook import Workbook
 from datetime import datetime
@@ -28,6 +29,9 @@ class MyWindow(QtWidgets.QMainWindow, UI.Ui_MainWindow):
         super().__init__(),
         self.setupUi(self)
         self.tbl_preview.horizontalHeader().setStretchLastSection(True)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("icon/icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.On)
+        self.setWindowIcon(icon)
 
         self.btn_open_xlsx.clicked.connect(self.btnUploadClicked)
         self.btn_search.clicked.connect(self.btnGenerateClicked)
@@ -57,20 +61,20 @@ class MyWindow(QtWidgets.QMainWindow, UI.Ui_MainWindow):
         for row in range(2, sheetWork.max_row + 1):
             if sheetWork.cell(row, self.quarter + 3).value == True:
                 self.work.append([sheetWork.cell(row, 2).value, sheetWork.cell(row, 3).value])
+    
+    def filterKeywordByDate(self, file):
+        sheetKeyword = file['keyword']
+        for row in range(2, sheetKeyword.max_row + 1):
+            if sheetKeyword.cell(row, self.quarter + 1).value == True:
+                self.keyword.append(sheetKeyword.cell(row, 1).value)
 
     def setTaskByKeyword(self, file):
-        sheetKeyword = file['keyword']
-        keywords = []
         works = []
-        for row in range(1,sheetKeyword.max_row+1):
-            keywords.append(sheetKeyword.cell(row, 1).value)
         for i in range(len(self.work)):
             works.append(self.work[i][0])
-        for a in keywords:
-            A = []
-            A.append(a)
+        for a in self.keyword:
             for b in works:
-                self.task.append([A[0]+" "+b, b])
+                self.task.append([a+" "+b, b])
 
     def setTaskByPosition(self, file):
         sheetMember = file['member']
@@ -144,6 +148,7 @@ class MyWindow(QtWidgets.QMainWindow, UI.Ui_MainWindow):
         self.label_result_value.setText('')
         self.tbl_preview.clearContents()
         self.quarter = 0
+        self.progressBar.setValue(0)
         #self.groupBox
 
     def btnGenerateClicked(self):
@@ -169,6 +174,7 @@ class MyWindow(QtWidgets.QMainWindow, UI.Ui_MainWindow):
         load_file = load_workbook(self.xlsx, data_only=True)
         try:
             self.filterTaskByDate(load_file)
+            self.filterKeywordByDate(load_file)
             self.setTaskByKeyword(load_file)
             self.setTaskByPosition(load_file)
             self.label_result_value.setText(str(len(self.result)))
